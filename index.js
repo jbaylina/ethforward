@@ -1,15 +1,17 @@
-const express = require('express')
-const ens = require('ens')
+const http = require('http');
+const ens = require('./ens');
+const httpProxy = require('http-proxy');
 
-const app = express()
+const proxy = httpProxy.createProxyServer({});
 
 
-app.get('/',  async (req, res) => {
-  const content = await ens.content(req.hostname);
-  res.send("hostname: " + req.hostname + "  content: " + content);
-  const resolver = await ens.getContent(req.hostname);
-})
-
-app.listen(80, function () {
-  console.log('Example app listening on port 80!')
-})
+http.createServer(async (req, res) => {
+    console.log("url: ", req.url);
+    console.log("hosnname: ", req.headers.host);
+    const content = await ens.getContent(req.headers.host);
+    console.log("content: ", content);
+  // This simulates an operation that takes 500ms to execute
+    proxy.web(req, res, {
+      target: 'http://localhost:9001/' + content + req.url
+    });
+}).listen(8080);
