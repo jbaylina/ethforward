@@ -9,6 +9,7 @@
   "author": "Jordi Baylina",
   "license": "GPL-3.0",
   "dependencies": {
+    "bs58": "^4.0.1",
     "express": "^4.16.2"
   }
 }
