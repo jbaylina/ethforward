@@ -12,6 +12,6 @@ http.createServer(async (req, res) => {
     console.log("content: ", content);
   // This simulates an operation that takes 500ms to execute
     proxy.web(req, res, {
-      target: 'http://localhost:9001/' + content + req.url
+      target: 'http://localhost:9001' + content + req.url
     });
-}).listen(8080);
+}).listen(80);
